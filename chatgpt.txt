@@ -1,0 +1,116 @@
+import { Center, Heading, Image, Text, Box, Flex } from "@chakra-ui/react";
+
+export const RecipeListItem = ({ recipe, clickFn }) => {
+  const vegetarian = recipe.recipe.healthLabels.some((label) =>
+    label.toLowerCase().includes("vegetarian")
+  );
+
+  const vegan = recipe.recipe.healthLabels.some((label) =>
+    label.toLowerCase().includes("vegan")
+  );
+
+  return (
+    <Center
+      flexDir="column"
+      gap={1}
+      onClick={() => clickFn(recipe)}
+      borderRadius="2xl"
+      w="fit-content"
+      h="350px"
+      bgColor="gray.100"
+      cursor="pointer"
+    >
+      <Image
+        src={recipe.recipe.image}
+        w="100%"
+        h="60%"
+        alt={recipe.recipe.label}
+        objectFit="cover"
+        borderTopRadius="2xl"
+      />
+      <Box p={2} mt={1} textAlign="center" w="100%">
+        <Text color="gray.500" textTransform="uppercase">
+          {recipe.recipe.mealType || "Meal Type"}
+        </Text>
+        <Heading fontSize="xl" color="gray.800" mt={1}>
+          {recipe.recipe.label || "Recipe Name"}
+        </Heading>
+        <Flex flexWrap="wrap" justifyContent="center" mt={2}>
+          {vegetarian && (
+            <Text
+              bgColor="purple.100"
+              px={2}
+              py={1}
+              fontWeight="bold"
+              textTransform="uppercase"
+              borderRadius="md"
+              mx={1}
+            >
+              Vegetarian
+            </Text>
+          )}
+          {vegan && (
+            <Text
+              bgColor="purple.100"
+              px={2}
+              py={1}
+              fontWeight="bold"
+              textTransform="uppercase"
+              borderRadius="md"
+              mx={1}
+            >
+              Vegan
+            </Text>
+          )}
+        </Flex>
+        <Flex flexWrap="wrap" justifyContent="center" mt={2}>
+          {recipe.recipe.dietLabels.map((label) => (
+            <Text
+              key={label}
+              bgColor="green.100"
+              px={2}
+              py={1}
+              fontWeight="bold"
+              textTransform="uppercase"
+              borderRadius="md"
+              mx={1}
+            >
+              {label}
+            </Text>
+          ))}
+        </Flex>
+        <Flex justifyContent="center" mt={2}>
+          <Text color="gray.500" mx={1}>
+            Dish:
+          </Text>
+          <Text color="gray.700" fontWeight="bold" mx={1}>
+            {recipe.recipe.dishType || "Unknown"}
+          </Text>
+        </Flex>
+        {recipe.recipe.cautions.length > 0 && (
+          <>
+            <Text color="gray.500" mt={2}>
+              Cautions:
+            </Text>
+            <Flex flexWrap="wrap" justifyContent="center" mt={1}>
+              {recipe.recipe.cautions.map((caution) => (
+                <Text
+                  key={caution}
+                  bgColor="red.100"
+                  px={2}
+                  py={1}
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  borderRadius="md"
+                  mx={1}
+                >
+                  {caution}
+                </Text>
+              ))}
+            </Flex>
+          </>
+        )}
+      </Box>
+    </Center>
+  );
+};
